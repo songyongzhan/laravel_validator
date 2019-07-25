@@ -4,7 +4,9 @@
   "type": "library",
   "autoload": {
     "psr-4": {
-      "songyongzhan\\autoCheck\\": "src/autoCheck"
+      "Songyongzhan\\AutoCheck\\": "src/autoCheck",
+      "Songyongzhan\\Libaray\\": "src/libaray",
+      "Songyongzhan\\Exceptions\\": "src/exceptions"
     },
     "files": []
   },
