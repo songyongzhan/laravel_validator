@@ -41,8 +41,9 @@ class AutoCheck
             $this->_rule = $this->_makeFile($reflec, $validateFile);
         }
         //进行数据比对
-        if (!is_array($rules = $this->_rule))
-            throw new \Exceptions('$this->_rule is not Array.', 500);
+        if (!is_array($rules = $this->_rule)) {
+            throw new ParameterException('$this->_rule is not Array.', 500);
+        }
 
         if (isset($rules['rules'][$method]) && ($methodRules = $rules['rules'][$method])) {
 
@@ -50,20 +51,21 @@ class AutoCheck
 
             //如果unique 排除一个id 变量存在，就进行值的替换
             $rulesStr = implode(',', array_values($methodRules));
-            if (strpos($rulesStr, 'unique:') !== FALSE && strpos($rulesStr, '$')) {
+            if (strpos($rulesStr, 'unique:') !== false && strpos($rulesStr, '$')) {
                 foreach ($methodRules as $k => &$val) {
                     if (strpos($val, 'unique:')) {
                         $rulesData = explode(',', explode('unique:', $val)[1]);
-                        if (isset($rulesData[2]) && strpos($rulesData[2], '$') !== FALSE) {
+                        if (isset($rulesData[2]) && strpos($rulesData[2], '$') !== false) {
                             $keyName = substr($rulesData[2], 1);
-                            if (isset($data[$keyName]))
+                            if (isset($data[$keyName])) {
                                 $val = str_replace($rulesData[2], $data[$keyName], $val);
+                            }
                         }
                     }
                 }
             }
 
-            if (TRUE !== ($result = $this->validate($data, $methodRules, $rules['msg'][$method]))) {
+            if (true !== ($result = $this->validate($data, $methodRules, $rules['msg'][$method]))) {
                 throw new ParameterException($result['errMsg'], 1);
             }
         }
@@ -72,6 +74,15 @@ class AutoCheck
     }
 
 
+    /**
+     * 创建验证文件
+     * _makeFile
+     * @param $reflection
+     * @param $validateFile
+     * @return array
+     * @author songyz <songyz@guahao.com>
+     * @date 2019/09/02 10:54
+     */
     private function _makeFile($reflection, $validateFile)
     {
         $config = [];
@@ -110,13 +121,14 @@ class AutoCheck
                     $config['msg'][$key][$item[2][$i] . '.' . $item[3][$i]] = $item[4][$i];
                 }
             }
-            $config['params'][$key] = $reflection->getMethodParams($key, TRUE);
+            $config['params'][$key] = $reflection->getMethodParams($key, true);
         }
         $config['file'] = $reflection->getFileName();
         $filePath = dirname($validateFile);
-        if (!is_dir($filePath))
-            @mkdir($filePath, 0777, TRUE);
-        $flag = file_put_contents($validateFile, '<?php return ' . var_export($config, TRUE) . ';', LOCK_EX);
+        if (!is_dir($filePath)) {
+            @mkdir($filePath, 0777, true);
+        }
+        $flag = file_put_contents($validateFile, '<?php return ' . var_export($config, true) . ';', LOCK_EX);
         $flag && chmod($validateFile, 0777);
         return $config;
     }
@@ -134,8 +146,10 @@ class AutoCheck
     public function validate($data, $rules, $msg)
     {
         $validator = \Illuminate\Support\Facades\Validator::make($data, $rules, $msg);
-        if ($validator->fails())
+        if ($validator->fails()) {
             return ['errMsg' => $validator->errors()->first()];
-        else return TRUE;
+        } else {
+            return true;
+        }
     }
 }
