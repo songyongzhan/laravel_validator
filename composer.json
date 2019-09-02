@@ -1,5 +1,5 @@
 {
-  "name": "songyongzhan/laravel_autoCheck",
+  "name": "songyongzhan/laravel_autocheck",
   "description": "laravel自动验证",
   "type": "library",
   "autoload": {
