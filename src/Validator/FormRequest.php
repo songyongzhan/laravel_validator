@@ -5,6 +5,7 @@ namespace Songyz\Validator;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as FoundationFormRequest;
 use Illuminate\Support\Str;
+use Songyz\Exception\ValidatorFailureException;
 
 class FormRequest extends FoundationFormRequest
 {
@@ -173,12 +174,16 @@ class FormRequest extends FoundationFormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        //todo 验证失败 ，需要把这项功能抛出异常
-        //去获取配置文件，然后直接
-        headers_sent() || header('Content-type: application/json');
+        //如果验证失败，则获取配置文件中的异常
+        $exception = config('songyz_validator.failure_throw_exception');
+        $errCode = config('songyz_validator.failure_throw_code');
+        empty(strlen($errCode)) && $errCode = 1;
 
-        var_dump($validator->getMessageBag()->first());
-        exit;
+        if (empty($exception)) {
+            $exception = ValidatorFailureException::class;
+        }
+
+        throw new $exception($validator->getMessageBag()->first(), $errCode);
     }
 
     /**
