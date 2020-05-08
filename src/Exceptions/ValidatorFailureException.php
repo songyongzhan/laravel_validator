@@ -1,6 +1,6 @@
 <?php
 
-namespace Songyz\Exception;
+namespace Songyz\Exceptions;
 
 class ValidatorFailureException extends \Exception {
 

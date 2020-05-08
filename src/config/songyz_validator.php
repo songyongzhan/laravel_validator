@@ -6,7 +6,7 @@
  * @date 2019/09/20 20:27
  */
 return [
-    'failure_throw_exception' => \Songyz\Exception\ValidatorFailureException::class,//验证失败抛出异常类
+    'failure_throw_exception' => \Songyz\Exceptions\ValidatorFailureException::class,//验证失败抛出异常类
     'failure_throw_code' => 1,//验证失败抛出异常错误码
 
 ];

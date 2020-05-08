@@ -4,11 +4,14 @@
   "type": "library",
   "autoload": {
     "psr-4": {
-      "Songyz\\Validator\\": "src/Validator",
-      "Songyz\\Library\\": "src/Library",
-      "Songyz\\Exceptions\\": "src/Exception"
+      "Songyz\\": "src/"
     },
     "files": []
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
   },
   "require": {
     "php": ">=5.5"

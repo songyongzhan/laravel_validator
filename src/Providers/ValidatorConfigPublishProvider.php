@@ -27,8 +27,10 @@ class ValidatorConfigPublishProvider extends ServiceProvider
      */
     public function register()
     {
-
+        // Merge configs
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/songyz_validator.php',
+            'songyz_validator'
+        );
     }
-
-
 }

@@ -5,7 +5,7 @@ namespace Songyz\Validator;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as FoundationFormRequest;
 use Illuminate\Support\Str;
-use Songyz\Exception\ValidatorFailureException;
+use Songyz\Exceptions\ValidatorFailureException;
 
 class FormRequest extends FoundationFormRequest
 {
