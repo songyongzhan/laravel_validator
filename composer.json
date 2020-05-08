@@ -1,12 +1,12 @@
 {
-  "name": "songyongzhan/laravel_autocheck",
-  "description": "laravel自动验证",
+  "name": "songyz/laravel_validator",
+  "description": "封装laravel验证",
   "type": "library",
   "autoload": {
     "psr-4": {
-      "Songyongzhan\\AutoCheck\\": "src/autoCheck",
-      "Songyongzhan\\Libaray\\": "src/libaray",
-      "Songyongzhan\\Exceptions\\": "src/exceptions"
+      "Songyz\\Validator\\": "src/Validator",
+      "Songyz\\Library\\": "src/Library",
+      "Songyz\\Exceptions\\": "src/Exception"
     },
     "files": []
   },
