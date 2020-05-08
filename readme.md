@@ -2,8 +2,6 @@
 
 laravel autoCheck 主要解决减去书写繁琐的验证规则，而是通过注释的形式自动去验证，使用autoCheck只需要完成下面的几个操作步骤即可实现。
 
-
-
 ## Laravel autoCheck 能够做什么事情，为什么要用？举例说明下
 
 这是我们之前的代码编程方式
@@ -12,7 +10,7 @@ laravel autoCheck 主要解决减去书写繁琐的验证规则，而是通过�
      * 添加nav
      * addtest
      * @return \Illuminate\Http\JsonResponse
-     * @author songyz <songyz@guahao.com>
+     * 
      * @date 2019/06/20 14:24
      */
     public function addtest() {
@@ -58,7 +56,7 @@ laravel autoCheck 主要解决减去书写繁琐的验证规则，而是通过�
      * @param int $sort_id <numeric> 排序id必须是数字
      * @param int $status <required|numeric|in:1,0> 展示控制不能为空|展示控制必须是数字|展示控制传值错误
      * @return array
-     * @author songyz <songyz@guahao.com>
+     * 
      * @date 2019/5/25 12:53
      */
     public function add() {
