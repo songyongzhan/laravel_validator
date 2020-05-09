@@ -2,7 +2,6 @@
 
 namespace Songyz\Validator;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as FoundationFormRequest;
 use Illuminate\Support\Str;
 use Songyz\Exceptions\ValidatorFailureException;
@@ -168,11 +167,11 @@ class FormRequest extends FoundationFormRequest
     /**
      * 数据验证
      * failedValidation
-     * @param Validator $validator
+     * @param \Illuminate\Validation\Validator $validator
      * @author songyz <574482856@qq.com>
      * @date 2019/09/20 20:27
      */
-    public function failedValidation(Validator $validator)
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {
         //如果验证失败，则获取配置文件中的异常
         $exception = config('songyz_validator.failure_throw_exception');

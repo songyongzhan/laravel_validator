@@ -3,8 +3,9 @@
 namespace Songyz\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Songyz\Command\GeneratorValidatorRequestCommand;
 
-class ValidatorConfigPublishProvider extends ServiceProvider
+class ValidatorConfigProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -32,5 +33,13 @@ class ValidatorConfigPublishProvider extends ServiceProvider
             __DIR__ . '/../config/songyz_validator.php',
             'songyz_validator'
         );
+
+        $this->app->singleton('songyz.validator.generator', function ($app) {
+            return new GeneratorValidatorRequestCommand();
+        });
+        $this->commands([
+            'songyz.validator.generator'
+        ]);
+
     }
 }
