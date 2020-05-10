@@ -8,8 +8,8 @@ Songyz Laravel Validator扩展
 * 增强、优化扩展规则，通过配置文件即可实现多种规则
 * 减少编写代码，提高代码复用 释放劳动力
 
-##安装配置
-  ###1、安装
+## 安装配置
+  ### 1、安装
   ```json
 "require": {
     "songyz/laravel_validator": "^0.",
