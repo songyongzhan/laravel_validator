@@ -1,7 +1,7 @@
 Songyz Laravel Validator扩展
 ==============================
 
-#解决痛点
+# 解决痛点
 * 验证器Request中，可以编写多个验证规则
 * 验证与业务代码分离、代码更加清晰
 * 增加多种常用的验证规则 如 手机号验证、身份证验证
@@ -16,13 +16,13 @@ Songyz Laravel Validator扩展
 }  
 ```
 执行 `composer update` 完成包加载。
-###2、laravel配置项 
+### 2、laravel配置项 
 找到 `config/app.php` 文件，在`providers`中添加以下代码
 ```php
   Songyz\Providers\ValidationServiceProvider::class,
   Songyz\Providers\ValidatorConfigProvider::class,
 ```
-###3、发布配置文件
+### 3、发布配置文件
 ```shell script
 php artisan vendor:publish --provider="Songyz\Providers\ValidatorConfigProvider"
 ```
@@ -30,9 +30,9 @@ php artisan vendor:publish --provider="Songyz\Providers\ValidatorConfigProvider"
 
 至此项目配置完成。
 
-##使用方法
+## 使用方法
 假设 创建一个User用户类，创建新增方法、更新方法，实现必要的验证
-###1、创建Controller文件及接口
+### 1、创建Controller文件及接口
 ```shell script
 php artisan mack:controller UsersController
 ```
@@ -79,7 +79,7 @@ php artisan mack:controller UsersController
          */
     }
 ```
-###2、创建验证器
+### 2、创建验证器
 ```shell script
 php artisan songyz:make:request --request_name=UserRequest
 ```
@@ -174,7 +174,7 @@ class UserRequest extends FormRequest
 }
 ```
 
-###3、控制器方法与验证器类绑定- Laravel通过依赖注入实现
+### 3、控制器方法与验证器类绑定- Laravel通过依赖注入实现
 
 ```php
 use App\Http\Requests\UserRequest;
@@ -223,7 +223,7 @@ use App\Http\Requests\UserRequest;
          */
     }
 ```
-###4、示例演示
+### 4、示例演示
 
 `web.php` 定义路由：
 ```php
