@@ -31,21 +31,40 @@ php artisan mack:controller UsersController
 ```
 再新创建Controller中新建两个方法：
 ```php
-public function add()
+ public function add()
     {
         /**
          * 1、进行必要参数验证
+         *    需要验证 username 不能为空
+         *           moible    不能为空 且必须是手机号
          * 2、接收参数
          * 3、调用方法入库
          * ...
          */
         echo time();
+
     }
 
     public function update()
     {
         /**
          * 1、进行必要参数验证
+         *    需要验证 username 不能为空
+         *           moible   不能为空 且必须是手机号
+         *           id       不能为空 且必须是数字
+         * 2、验证主键Id是否存在
+         * 2、接收参数
+         * 3、调用方法入库
+         * ...
+         */
+
+    }
+
+    public function del()
+    {
+        /**
+         * 1、进行必要参数验证
+         *    需要验证  id       不能为空 且必须是数字
          * 2、验证主键Id是否存在
          * 2、接收参数
          * 3、调用方法入库
@@ -53,3 +72,151 @@ public function add()
          */
     }
 ```
+###2、创建验证器
+```shell script
+php artisan songyz:make:request --request_name=UserRequest
+```
+执行成功后，在 `app/Http/Requests/` 目录下看到UserRequest.php。  
+`UserRequest.php`，代码如下:  
+```php
+<?php
+
+namespace App\Http\Requests;
+
+use Songyz\Validator\FormRequest;
+
+class UserRequest extends FormRequest
+{
+
+    /**
+     * 定义一个公共的验证 在del、update 方法中复用
+     * @var array
+     */
+    protected $commonValidator = [
+        'rules' => [
+            'id' => 'required|number'
+        ],
+        'messages' => [
+            'id.required' => 'id不能为空',
+            'id.number' => 'id必须是数字',
+        ]
+    ];
+
+    /**
+     * 属性名需和控制器名保持一致
+     * 对应控制器的add方法
+     * @var array
+     */
+    protected $add = [
+        'rules' => [
+            'username' => 'required',
+            'mobile' => 'required|mobile',
+        ],
+        'messages' => [
+            'username.required' => '用户名不能为空',
+            'mobile.required' => 'mobile不能为空',
+            'mobile.mobile' => 'mobile格式不正确',
+        ]
+    ];
+
+    /**
+     * 属性名需和控制器名保持一致
+     * 对应控制器的 update方法
+     * @var array
+     */
+    protected $update = [
+        'rules' => [
+             'username' => 'required',
+            'mobile' => 'required|mobile',
+        ],
+        'messages' => [
+            'username.required' => '用户名不能为空',
+            'mobile.required' => 'mobile不能为空',
+            'mobile.mobile' => 'mobile格式不正确',
+        ]
+    ];
+
+    /**
+     * 删除方法
+     * @var array
+     */
+    protected $del = [];
+
+    /**
+     * 实现验证器复用
+     * reuseAttribute
+     *
+     * @author songyz <574482856@qq.com>
+     * @date 2020/5/10 10:48
+     */
+    protected function reuseAttribute()
+    {
+        $this->del = $this->commonValidator; //实现了id的验证
+
+        /**
+         * 将update和commonValidator 合并起来
+         * 实现了 验证 用户名、手机号以及id
+         *
+         * 扩展：当然 如果你愿意 $update 中的属性也可以不用写，用下面代码实现
+         *
+         * protected $update = [];
+         * $this->update = $this->multiMerge($this->commonValidator, $this->add);
+         */
+        $this->update = $this->multiMerge($this->commonValidator, $this->update);
+    }
+}
+```
+
+###3、控制器方法与验证器类绑定- Laravel通过依赖注入实现
+
+```php
+use App\Http\Requests\UserRequest;
+
+    public function add(UserRequest $request)
+    {
+        echo 'add';
+        /**
+         * 1、进行必要参数验证
+         *    需要验证 username 不能为空
+         *           moible    不能为空 且必须是手机号
+         * 2、接收参数
+         * 3、调用方法入库
+         * ...
+         */
+        echo time();
+
+    }
+
+    public function update(UserRequest $request)
+    {
+        echo 'update';
+        /**
+         * 1、进行必要参数验证
+         *    需要验证 username 不能为空
+         *           moible   不能为空 且必须是手机号
+         *           id       不能为空 且必须是数字
+         * 2、验证主键Id是否存在
+         * 2、接收参数
+         * 3、调用方法入库
+         * ...
+         */
+
+    }
+
+    public function del(UserRequest $request)
+    {
+        echo 'del';
+        /**
+         * 1、进行必要参数验证
+         *    需要验证  id       不能为空 且必须是数字
+         * 2、验证主键Id是否存在
+         * 2、接收参数
+         * 3、调用方法入库
+         * ...
+         */
+    }
+```
+
+
+
+

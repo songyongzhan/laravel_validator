@@ -57,6 +57,13 @@ class GeneratorValidatorRequestCommand extends Command
         $requestName = str_replace('/', '\\', $requestName);
         $path = app_path('Http' . self::DS . 'Requests');
 
+        //判断$requestName 中最后7位是不是 如果是，则去掉 Request
+        $lastSevenString = substr($requestName, -7);
+
+        if (strtolower($lastSevenString) == 'request') {
+            $requestName = substr($requestName, 0, -7);
+        }
+
         $namespace = $this->calculationNameSpace($path);
 
         $fileName = ucfirst($requestName) . 'Request.php';
@@ -131,18 +138,6 @@ use Songyz\Validator\FormRequest;
 class --requestName--Request extends FormRequest
 {
 
-    //控制器名称必须和属性名保持一致
-    protected $list = [
-        'rules' => [
-            'token' => 'required',
-            'mobile' => 'required|mobile',
-        ],
-        'messages' => [
-            'token.required' => 'token不能为空',
-            'mobile.required' => 'mobile不能为空',
-            'mobile.mobile' => 'mobile格式不正确',
-        ]
-    ];
 }
 TOT;
 
