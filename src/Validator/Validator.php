@@ -37,7 +37,7 @@ class Validator extends FrameValidator
      * addCreditCard
      * @return mixed
      *
-     * @author songyz <songyz@guahao.com>
+     * @author songyz <574482856@qq.com>
      * @date 2020/5/10 20:05
      */
     protected function addCreditCard()
