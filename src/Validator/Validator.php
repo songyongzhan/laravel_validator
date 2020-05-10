@@ -2,13 +2,27 @@
 
 namespace Songyz\Validator;
 
+use Freelancehunt\Validators\CreditCard;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Factory as FrameValidator;
 use Songyz\Library\IdentityCard;
 
+/**
+ * Class Validator
+ * @package Songyz\Validator
+ * @author songyz <574482856@qq.com>
+ * @date 2020/5/10 20:04
+ */
 class Validator extends FrameValidator
 {
-    //系统内置 手机、身份证号验证
+    /**
+     *
+     * addMobile
+     * @return mixed
+     *
+     * @author songyz <574482856@qq.com>
+     * @date 2020/5/10 20:04
+     */
     protected function addMobile()
     {
         return $this->extend('mobile', function ($attribute, $value, $parameters, $validator) {
@@ -18,6 +32,32 @@ class Validator extends FrameValidator
         });
     }
 
+    /**
+     * 验证银行卡
+     * addCreditCard
+     * @return mixed
+     *
+     * @author songyz <songyz@guahao.com>
+     * @date 2020/5/10 20:05
+     */
+    protected function addCreditCard()
+    {
+        return $this->extend('credit_card', function ($attribute, $value, $parameters, $validator) {
+            $result = CreditCard::validCreditCard($value);
+            if (!is_array($result) || isset($result['valid']) || $result['valid'] !== true) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    /**
+     * 判断身份证
+     * addIdCard
+     * @return mixed
+     *
+     * @date 2020/5/10 20:00
+     */
     protected function addIdCard()
     {
         return $this->extend('id_card', function ($attribute, $value, $parameters, $validator) {
@@ -39,9 +79,10 @@ class Validator extends FrameValidator
     {
         $this->addIdCard();
         $this->addMobile();
-        $this->parseConfigRules();
+        $this->addCreditCard();
+
         //从config中获取到扩展字典，然后注册到验证类中
-        file_put_contents(base_path('storage' . DIRECTORY_SEPARATOR . 'a.log'), "init\n", FILE_APPEND);
+        $this->parseConfigRules();
     }
 
     private function parseConfigRules()

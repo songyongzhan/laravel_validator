@@ -4,6 +4,13 @@ namespace Songyz\Command;
 
 use Illuminate\Console\Command;
 
+/**
+ * 生成验证类脚本
+ * Class GeneratorValidatorRequestCommand
+ * @package Songyz\Command
+ * @author songyz <574482856@qq.com>
+ * @date 2020/5/10 20:02
+ */
 class GeneratorValidatorRequestCommand extends Command
 {
     const DS = DIRECTORY_SEPARATOR;

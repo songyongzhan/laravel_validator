@@ -6,6 +6,13 @@ use Illuminate\Foundation\Http\FormRequest as FoundationFormRequest;
 use Illuminate\Support\Str;
 use Songyz\Exceptions\ValidatorFailureException;
 
+/**
+ * 系统核心验证器
+ * Class FormRequest
+ * @package Songyz\Validator
+ * @author songyz <574482856@qq.com>
+ * @date 2020/5/10 20:03
+ */
 class FormRequest extends FoundationFormRequest
 {
     /** @var array 忽略验证的方法 */

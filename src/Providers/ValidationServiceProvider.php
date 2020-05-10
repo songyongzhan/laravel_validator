@@ -5,6 +5,13 @@ namespace Songyz\Providers;
 use Illuminate\Validation\ValidationServiceProvider as FrameValidationServiceProvider;
 use Songyz\Validator\Validator;
 
+/**
+ * 验证器服务提供 - 重写laravel 系统自带的 validator
+ * Class ValidationServiceProvider
+ * @package Songyz\Providers
+ * @author songyz <574482856@qq.com>
+ * @date 2020/5/10 20:02
+ */
 class ValidationServiceProvider extends FrameValidationServiceProvider
 {
     /**

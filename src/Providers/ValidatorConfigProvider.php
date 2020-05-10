@@ -5,6 +5,13 @@ namespace Songyz\Providers;
 use Illuminate\Support\ServiceProvider;
 use Songyz\Command\GeneratorValidatorRequestCommand;
 
+/**
+ * 配置文件发布
+ * Class ValidatorConfigProvider
+ * @package Songyz\Providers
+ * @author songyz <574482856@qq.com>
+ * @date 2020/5/10 20:03
+ */
 class ValidatorConfigProvider extends ServiceProvider
 {
     /**

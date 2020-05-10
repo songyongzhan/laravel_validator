@@ -2,6 +2,13 @@
 
 namespace Songyz\Library;
 
+/**
+ * 身份证验证
+ * Class IdentityCard
+ * @package Songyz\Library
+ * @author songyz <574482856@qq.com>
+ * @date 2020/5/10 20:02
+ */
 class IdentityCard
 {
     /**

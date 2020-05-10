@@ -29,10 +29,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "Songyz\\Tests\\": "tests/"
     }
   },
   "require": {
+    "freelancehunt/php-credit-card-validator": "3.*",
     "php": ">=5.5"
   },
   "minimum-stability": "dev"
