@@ -1,5 +1,12 @@
-Laravel Validator扩展 Authentication
+Songyz Laravel Validator扩展
 ==============================
+
+#解决痛点
+* 验证器Request中，可以编写多个验证规则
+* 验证与业务代码分离、代码更加清晰
+* 增加多种常用的验证规则 如 手机号验证、身份证验证
+* 增强、优化扩展规则，通过配置文件即可实现多种规则
+* 减少编写代码，提高代码复用 释放劳动力
 
 ##安装配置
   ###1、安装
@@ -94,11 +101,11 @@ class UserRequest extends FormRequest
      */
     protected $commonValidator = [
         'rules' => [
-            'id' => 'required|number'
+            'id' => 'required|integer'
         ],
         'messages' => [
             'id.required' => 'id不能为空',
-            'id.number' => 'id必须是数字',
+            'id.integer' => 'id必须是数字',
         ]
     ];
 
@@ -216,6 +223,36 @@ use App\Http\Requests\UserRequest;
          */
     }
 ```
+###4、示例演示
+
+`web.php` 定义路由：
+```php
+Route::prefix('users')->group(function () {
+    Route::any('add', 'UsersController@add');
+    Route::any('update', 'UsersController@update');
+    Route::any('del', 'UsersController@del');
+});
+```
+* users/add
+> 未填写mobile
+![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589081856871205.png)
+
+>mobile格式错误
+![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589081914307862.png)
+
+>add方法验证通过
+![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589082004854535.png)
+
+* users/update
+>mobie为空
+![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589083074759721.png)
+
+* users/del
+> id格式不正确
+![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589082845670523.png)
+
+> id通过验证
+![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589082963765808.png)
 
 
 
