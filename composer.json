@@ -1,6 +1,6 @@
 {
   "name": "songyz/laravel_validator",
-  "description": "封装laravel验证",
+  "description": "扩展laravel验证、验证规则复用、验证器扩展",
   "license": "MIT",
   "keywords": [
     "laravel",
