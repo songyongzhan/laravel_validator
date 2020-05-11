@@ -2,17 +2,17 @@
 
 namespace Songyz\Validator;
 
-use Illuminate\Foundation\Http\FormRequest as FoundationFormRequest;
+use \Songyz\LumenExtends\FormRequest as LumenExtendsFormRequest;
 
 
 /**
  * 系统核心验证器
- * Class FormRequest
+ * Class LumenFormRequest
  * @package Songyz\Validator
  * @author songyz <574482856@qq.com>
  * @date 2020/5/10 20:03
  */
-class FormRequest extends FoundationFormRequest
+class LumenFormRequest extends LumenExtendsFormRequest
 {
     use ValidationTrait;
 

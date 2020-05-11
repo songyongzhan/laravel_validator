@@ -84,9 +84,10 @@ class GeneratorValidatorRequestCommand extends Command
             $customPath = ucfirst(implode('\\', $requestNameData));
             $namespace = $namespace . '\\' . $customPath;
             $path = rtrim($path, self::DS) . self::DS . $customPath;
-            if (!is_dir($path)) {
-                mkdir($path, 0755, true);
-            }
+        }
+
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
         }
 
         $templateContent = $this->requestStub();
