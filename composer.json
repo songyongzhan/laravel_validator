@@ -34,7 +34,7 @@
   },
   "require": {
     "freelancehunt/php-credit-card-validator": "3.*",
-    "php": ">=5.5"
+    "php": ">=7.1"
   },
   "minimum-stability": "dev"
 }

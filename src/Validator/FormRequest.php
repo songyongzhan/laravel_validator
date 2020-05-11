@@ -117,7 +117,7 @@ class FormRequest extends FoundationFormRequest
         }
         $result = $this->$functionName();
 
-        return $result['rules'] ?? [];
+        return isset($result['rules']) ? $result['rules'] : [];
     }
 
     /**

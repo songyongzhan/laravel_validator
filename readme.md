@@ -10,10 +10,8 @@ Songyz Laravel Validator扩展
 
 ## 安装配置
   ### 1、安装
-  ```json
-"require": {
-    "songyz/laravel_validator": "^0.",
-}  
+```shell script
+    composer require songyz/laravel_validator
 ```
 执行 `composer update` 完成包加载。
 ### 2、laravel配置项 
