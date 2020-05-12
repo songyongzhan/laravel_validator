@@ -95,21 +95,13 @@ class Validator extends FrameValidator
 
         $isPattern = '/^[\/|#]+[\s\S]+[\/|#]+([uUism]*)$/';
         foreach ($rules as $ruleKey => $ruleVal) {
-
-            //判断是不是正则表达式
-            if (is_callable($rules[$ruleKey])) {
-                $this->extend($ruleKey, function ($attribute, $value, $parameters, $validator) use ($rules, $ruleKey) {
-                    return $rules[$ruleKey]($attribute, $value, $parameters, $validator);
-                });
-            } else {
-                //判断是不是正则，如果不是，则忽略
-                if (!preg_match($isPattern, $ruleVal)) {
-                    continue;
-                }
-                $this->extend($ruleKey, function ($attribute, $value, $parameters, $validator) use ($ruleVal) {
-                    return preg_match($ruleVal, $value);
-                });
+            //判断是不是正则，如果不是，则忽略
+            if (!preg_match($isPattern, $ruleVal)) {
+                continue;
             }
+            $this->extend($ruleKey, function ($attribute, $value, $parameters, $validator) use ($ruleVal) {
+                return preg_match($ruleVal, $value);
+            });
         }
     }
 
