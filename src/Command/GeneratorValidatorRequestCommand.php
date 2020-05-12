@@ -3,6 +3,8 @@
 namespace Songyz\Command;
 
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Application as LaravelApplication;
+use Laravel\Lumen\Application as LumenApplication;
 
 /**
  * 生成验证类脚本
@@ -47,7 +49,6 @@ class GeneratorValidatorRequestCommand extends Command
      */
     public function handle()
     {
-
         //创建类名
         $requestName = $this->option('request_name');
 
@@ -62,7 +63,10 @@ class GeneratorValidatorRequestCommand extends Command
 
         //判断是否包含了 / 或者 \ 如果包含里面的一种，则需判断目录
         $requestName = str_replace('/', '\\', $requestName);
-        $path = app_path('Http' . self::DS . 'Requests');
+        $path = config('songyz_validator.request_path');
+        if (empty($path)) {
+            $path = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Requests');
+        }
 
         //判断$requestName 中最后7位是不是 如果是，则去掉 Request
         $lastSevenString = substr($requestName, -7);
@@ -91,8 +95,14 @@ class GeneratorValidatorRequestCommand extends Command
         }
 
         $templateContent = $this->requestStub();
-        $templateContent = str_replace(['--namespace--', '--requestName--'],
-            [$namespace, str_replace('Request.php', '', $fileName)], $templateContent);
+        $systemCategory = '';
+        if ($this->getLaravel() instanceof LumenApplication) {
+            $systemCategory = DIRECTORY_SEPARATOR . 'Lumen';
+        }
+
+        $templateContent = str_replace(['--namespace--', '--requestName--', '--systemCategory--', '--datetime--'],
+            [$namespace, str_replace('Request.php', '', $fileName), $systemCategory, date('Y-m-d H:i:s')],
+            $templateContent);
 
         $createFlag = true;
         if (file_exists($path . self::DS . $fileName) && !$this->option('force')) {
@@ -103,6 +113,7 @@ class GeneratorValidatorRequestCommand extends Command
         if (!$createFlag) {
             return false;
         }
+
         $fileSize = file_put_contents($path . self::DS . $fileName, $templateContent);
 
         $this->info($path . self::DS . $fileName . ' 文件创建成功' . $fileSize);
@@ -120,7 +131,7 @@ class GeneratorValidatorRequestCommand extends Command
     private function calculationNameSpace($path)
     {
         //计算根目录 app path
-        $basePath = app_path();
+        $basePath = base_path('app');
         $tempPath = str_replace(['/', '\\'], self::DS, str_replace($basePath, '', $path));
         return "App" . self::DS . trim($tempPath, self::DS);
     }
@@ -141,8 +152,14 @@ class GeneratorValidatorRequestCommand extends Command
 
 namespace --namespace--;
 
-use Songyz\Validator\FormRequest;
+use Songyz\Validator--systemCategory--\FormRequest;
 
+/**
+ * 数据验证器
+ * Class --requestName--Request
+ * @package --namespace--
+ * @date --datetime--
+ */
 class --requestName--Request extends FormRequest
 {
 

@@ -14,7 +14,7 @@ class LumenFoundationServiceProvider extends AggregateServiceProvider
      * @var array
      */
     protected $providers = [
-        LumenFoundationServiceProvider::class
+        LumenFormRequestServiceProvider::class
     ];
 
     /**

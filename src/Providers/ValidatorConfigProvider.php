@@ -24,7 +24,7 @@ class ValidatorConfigProvider extends ServiceProvider
         $configPath = __DIR__ . '/../config/songyz_validator.php';
 
         $this->publishes([
-            $configPath => config_path('songyz_validator.php'),
+            $configPath => base_path('config' . DIRECTORY_SEPARATOR . 'songyz_validator.php'),
         ]);
     }
 

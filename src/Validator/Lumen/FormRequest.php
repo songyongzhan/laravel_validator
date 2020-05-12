@@ -1,18 +1,18 @@
 <?php
 
-namespace Songyz\Validator;
+namespace Songyz\Validator\Lumen;
 
 use \Songyz\LumenExtends\FormRequest as LumenExtendsFormRequest;
-
+use Songyz\Validator\ValidationTrait;
 
 /**
  * 系统核心验证器
- * Class LumenFormRequest
+ * Class FormRequest
  * @package Songyz\Validator
  * @author songyz <574482856@qq.com>
  * @date 2020/5/10 20:03
  */
-class LumenFormRequest extends LumenExtendsFormRequest
+class FormRequest extends LumenExtendsFormRequest
 {
     use ValidationTrait;
 

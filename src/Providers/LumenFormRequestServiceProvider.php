@@ -5,10 +5,10 @@ namespace Songyz\Providers;
 use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Http\Redirector;
-use Songyz\Validator\LumenFormRequest;
+use Songyz\Validator\Lumen\FormRequest;
 
 
-class FormRequestServiceProvider extends ServiceProvider
+class LumenFormRequestServiceProvider extends ServiceProvider
 {
 
     /**
@@ -32,8 +32,8 @@ class FormRequestServiceProvider extends ServiceProvider
             $resolved->validateResolved();
         });
 
-        $this->app->resolving(LumenFormRequest::class, function ($request, $app) {
-            $request = LumenFormRequest::createFrom($app['request'], $request);
+        $this->app->resolving(FormRequest::class, function ($request, $app) {
+            $request = FormRequest::createFrom($app['request'], $request);
 
             $request->setContainer($app)->setRedirector($app->make(Redirector::class));
         });
