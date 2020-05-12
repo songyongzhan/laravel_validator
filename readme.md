@@ -14,13 +14,14 @@ Songyz Laravel Validator扩展
     composer require songyz/laravel_validator
 ```
 执行 `composer update` 完成包加载。
-### 2、laravel配置项 
-找到 `config/app.php` 文件，在`providers`中添加以下代码
+### 2、加载服务
+> Laravel加载服务   
+> 找到 `config/app.php` 文件，在`providers`中添加以下代码
 ```php
   Songyz\Providers\ValidationServiceProvider::class,
   Songyz\Providers\ValidatorConfigProvider::class,
 ```
-> Lumen配置  
+> Lumen加载服务  
 > 打开`bootstrap/app.php` 添加以下服务提供
 ```php
 $app->register(Songyz\Providers\ValidationServiceProvider::class);  
@@ -28,17 +29,19 @@ $app->register(Songyz\Providers\ValidatorConfigProvider::class);
 $app->register(Songyz\Providers\LumenFoundationServiceProvider::class);
 ```
 
-### 3、发布配置文件
+### 3、发布配置
+
+> Laravel 执行命令发布  
 ```shell script
 php artisan vendor:publish --provider="Songyz\Providers\ValidatorConfigProvider"
 ```
-发布完后，会在`config`目录下生成 songyz_validator.php 配置文件
-
-> Lumen发布配置文件  
->  
+> Lumen 需手动发布  
+> 
 > 在`vendor/songyz/laravel_validator/src/config` 找到 `songyz_validator.php` 复制到`config`目录下。  
 >如果`config`目录不存在，手动创建即可。
 
+  
+发布完后，会在`config`目录下生成 songyz_validator.php 配置文件
 至此项目配置完成。
 
 ## 使用方法
