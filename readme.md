@@ -6,7 +6,7 @@ Songyz Laravel Validator扩展
 * 验证与业务代码分离、代码更加清晰
 * 增加多种常用的验证规则 如 手机号验证、身份证验证
 * 增强、优化扩展规则，通过配置文件即可实现多种规则
-* 减少编写代码，提高代码复用 释放劳动力
+* 减少代码编写，提高代码复用 释放劳动力
 
 ## 安装配置
   ### 1、安装
@@ -20,11 +20,23 @@ Songyz Laravel Validator扩展
   Songyz\Providers\ValidationServiceProvider::class,
   Songyz\Providers\ValidatorConfigProvider::class,
 ```
+> Lumen配置  
+> 打开`bootstrap/app.php` 添加以下服务提供
+```php
+$app->register(Songyz\Providers\ValidationServiceProvider::class);  
+$app->register(Songyz\Providers\ValidatorConfigProvider::class);  
+$app->register(Songyz\Providers\LumenFoundationServiceProvider::class);
+```
+
 ### 3、发布配置文件
 ```shell script
 php artisan vendor:publish --provider="Songyz\Providers\ValidatorConfigProvider"
 ```
 发布完后，会在`config`目录下生成 songyz_validator.php 配置文件
+
+> Lumen发布配置文件  
+> 在`vendor/songyz/laravel_validator/src/config` 找到 `songyz_validator.php` 复制到`config`目录下。  
+>如果`config`目录不存在，手动创建即可。
 
 至此项目配置完成。
 
@@ -251,7 +263,3 @@ Route::prefix('users')->group(function () {
 
 > id通过验证
 ![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589082963765808.png)
-
-
-
-
