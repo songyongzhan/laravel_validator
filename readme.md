@@ -237,7 +237,41 @@ use App\Http\Requests\UserRequest;
          */
     }
 ```
-### 4、示例演示
+
+### 4、验证未通过抛出ValidatorFailureException异常
+
+如果未通过验证，系统将抛出 `ValidatorFailureException` 异常。  
+可以在 exceptions/handle.php 捕捉。  
+例如：
+开发接口项目：  
+```php
+use Songyz\Exceptions\ValidatorFailureException;
+
+public function render($request, Exception $exception)
+{
+    //如果是ajax请求 则返回接口形式的数据
+    if ($request->ajax()) {
+        $message = $exception->getMessage();
+        $defaultMessage = '网络开小差喽 请稍后...';
+
+        if ($exception instanceof ValidatorFailureException) {
+            //处理你的逻辑...     
+        }
+        $code = strval($exception->getCode() == '0' ? '1' : $exception->getCode());
+
+        $jsonData = $data ?? [];
+        return response()->json(['code' => $code, 'message' => $message, 'data' => $jsonData], 200, [
+            'Content-type' => 'application/json'
+        ], JSON_UNESCAPED_UNICODE);
+
+    }
+
+    return parent::render($request, $exception);
+}
+```
+ 
+
+### 5、示例演示
 
 `web.php` 定义路由：
 ```php
