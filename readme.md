@@ -35,6 +35,7 @@ php artisan vendor:publish --provider="Songyz\Providers\ValidatorConfigProvider"
 发布完后，会在`config`目录下生成 songyz_validator.php 配置文件
 
 > Lumen发布配置文件  
+>  
 > 在`vendor/songyz/laravel_validator/src/config` 找到 `songyz_validator.php` 复制到`config`目录下。  
 >如果`config`目录不存在，手动创建即可。
 
