@@ -26,6 +26,11 @@ class GeneratorValidatorRequestCommand extends Command
     {--force : Overwrite any existing files}';
 
     /**
+     * description config name
+     * @var string
+     */
+    protected $configName = 'songyz_validator';
+    /**
      * The console command description.
      *
      * @var string
@@ -63,7 +68,7 @@ class GeneratorValidatorRequestCommand extends Command
 
         //判断是否包含了 / 或者 \ 如果包含里面的一种，则需判断目录
         $requestName = str_replace('/', '\\', $requestName);
-        $path = config('songyz_validator.request_path');
+        $path = config($this->configName . '.request_path');
         if (empty($path)) {
             $path = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Requests');
         }
@@ -145,7 +150,7 @@ class GeneratorValidatorRequestCommand extends Command
      * @author songyz <574482856@qq.com>
      * @date 2020/5/9 21:49
      */
-    private function requestStub()
+    protected function requestStub()
     {
         return <<<'TOT'
 <?php

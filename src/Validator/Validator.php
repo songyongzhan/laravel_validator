@@ -15,6 +15,9 @@ use Songyz\Library\IdentityCard;
  */
 class Validator extends FrameValidator
 {
+    /** @var string 设置获取的配置文件名 */
+    protected $configName = 'songyz_validator';
+
     /**
      *
      * addMobile
@@ -85,9 +88,15 @@ class Validator extends FrameValidator
         $this->parseConfigRules();
     }
 
-    private function parseConfigRules()
+    /**
+     * 解析配置文件中正则表达式 自动注册验证规则
+     * parseConfigRules
+     * @return bool
+     *
+     */
+    protected function parseConfigRules()
     {
-        $rules = config('songyz_validator.append_extend_rules');
+        $rules = config($this->configName . '.append_extend_rules');
 
         if (empty($rules)) {
             return false;

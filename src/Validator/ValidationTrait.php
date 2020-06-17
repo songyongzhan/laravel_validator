@@ -151,8 +151,8 @@ trait ValidationTrait
     public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {
         //如果验证失败，则获取配置文件中的异常
-        $exception = config('songyz_validator.failure_throw_exception');
-        $errCode = config('songyz_validator.failure_throw_code');
+        $exception = config($this->getAddPrefixConfigName('failure_throw_exception'));
+        $errCode = config($this->getAddPrefixConfigName('failure_throw_code'));
         empty(strlen($errCode)) && $errCode = 1;
 
         if (empty($exception)) {
@@ -329,5 +329,21 @@ trait ValidationTrait
 
         }
         return $merged;
+    }
+
+    /**
+     * 获取带有前缀的配置名
+     * getAddPrefixConfigName
+     * @param $name
+     * @return string
+     *
+     */
+    protected function getAddPrefixConfigName($name)
+    {
+        $configName = 'songyz_validator';
+        if (isset($this->configName)) {
+            $configName = $this->configName;
+        }
+        return $configName . '.' . $name;
     }
 }

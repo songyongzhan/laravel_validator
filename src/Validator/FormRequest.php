@@ -16,6 +16,9 @@ class FormRequest extends FoundationFormRequest
 {
     use ValidationTrait;
 
+    /** @var string 设置configName */
+    protected $configName='songyz_validator';
+
     /** @var array 忽略验证的方法 */
     protected $ignore = [];
 
