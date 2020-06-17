@@ -20,7 +20,7 @@ class FormRequest extends LumenExtendsFormRequest
     protected $ignore = [];
 
     /** @var string 设置configName */
-    protected $configName='songyz_validator';
+    protected $configName = 'songyz_validator';
 
     /** @var array 公共 */
     protected $commonValidator = [];
