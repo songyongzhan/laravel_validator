@@ -11,7 +11,7 @@ return [
     'request_path' => base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Requests'),
     'append_extend_rules' => [
         //添加验证规则  正则表达式
-        'chineseName' => '/^([\x{4e00}-\x{9fa5}]){2,16}+$/u', //正则匹配
+        'chinese_name' => '/^([\x{4e00}-\x{9fa5}])+$/u', //正则匹配
     ],
 ];
 
