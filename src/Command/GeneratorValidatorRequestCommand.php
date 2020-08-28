@@ -138,6 +138,10 @@ class GeneratorValidatorRequestCommand extends Command
         //计算根目录 app path
         $basePath = base_path('app');
         $tempPath = str_replace(['/', '\\'], self::DS, str_replace($basePath, '', $path));
+        $namespace = config($this->configName . '.namespace', null);
+        if ($namespace) {
+            return $namespace;
+        }
         return "App" . self::DS . trim($tempPath, self::DS);
     }
 

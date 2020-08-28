@@ -8,6 +8,7 @@
 return [
     'failure_throw_exception' => \Songyz\Exceptions\ValidatorFailureException::class,//验证失败抛出异常类
     'failure_throw_code' => 422,//验证失败抛出异常错误码
+    'namespace' => '', // 如果生成的文件不在app目录下，可自定义指定命名空间 默认为空
     'request_path' => base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Requests'),
     'append_extend_rules' => [
         //添加验证规则  正则表达式
