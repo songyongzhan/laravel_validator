@@ -269,7 +269,6 @@ public function render($request, Exception $exception)
     return parent::render($request, $exception);
 }
 ```
- 
 
 ### 5、示例演示
 
@@ -301,3 +300,151 @@ Route::prefix('users')->group(function () {
 
 > id通过验证
 ![图片](http://www.xiaosongit.com/Public/Upload/image/20200510/1589082963765808.png)
+
+## 补充异常
+
+此功能可选择使用
+
+打开`app/Exceptions/Handler.php`文件，将下面的代码替换原有的代码
+```php
+<?php
+
+namespace App\Exceptions;
+
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Psr\Log\LoggerInterface;
+use Songyz\Exceptions\ValidatorFailureException;
+use Throwable;
+
+class Handler extends ExceptionHandler
+{
+    /**
+     * A list of the exception types that are not reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [
+
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
+
+    /**
+     * 为什么会写这个方法
+     * 以前是 error 级别，这是错误级别
+     * 为了将级别设置为 info 所以写的这个方法
+     * 将ApiException 和 ValidatorFailureException 这两个异常记录为 info 级别
+     *
+     * Report or log an exception.
+     *
+     * @param \Throwable $exception
+     * @return void
+     *
+     * @throws \Throwable
+     */
+    public function report(Throwable $exception)
+    {
+        if ($this->shouldntReport($exception)) {
+            return;
+        }
+
+        if (is_callable($reportCallable = [$exception, 'report'])) {
+            return $this->container->call($reportCallable);
+        }
+
+        try {
+            $logger = $this->container->make(LoggerInterface::class);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        $context = array_merge(
+            $this->exceptionContext($exception),
+            $this->context(),
+            ['exception' => $exception]
+        );
+        $loggerLevel = 'error';
+
+        if ($exception instanceof ApiException || $exception instanceof ValidatorFailureException) {
+            $context = [
+                'exception' => 'ApiException',
+                'file'      => $exception->getFile(),
+                'line'      => $exception->getLine()
+            ];
+            $loggerLevel = 'info';
+        }
+
+        $logger->{$loggerLevel}($exception->getMessage(), $context);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * 如果是ajax请求，则返回 json格式
+     *
+     * 否则返回正常的web页面
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
+     */
+    public function render($request, Throwable $exception)
+    {
+        //如果是ajax请求 则返回接口形式的数据
+        if ($request->ajax()) {
+            $message = '网络开小差喽 请稍后...';
+            if ($exception instanceof ApiException || $exception instanceof ValidatorFailureException) {
+                $message = $exception->getMessage();
+            }
+            //开发环境将详细错误日志打印出来，方便排查问题
+            if (app()->environment() == "development") {
+                $data = [
+                    'exception' => get_class($exception),
+                    'file'      => $exception->getFile(),
+                    'line'      => $exception->getLine()
+                ];
+            }
+            $code = strval($exception->getCode() == '0' ? '1' : $exception->getCode());
+            return response()->json(get_return_json($data ?? [], $code, $message), 200, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        return parent::render($request, $exception);
+    }
+}
+```
+
+新建`ApiException`类
+
+```php
+<?php
+
+namespace App\Exceptions;
+
+use Throwable;
+
+/**
+ *
+ * Class ApiException
+ * @package App\Exceptions
+ */
+class ApiException extends \Exception
+{
+    public $data;
+
+    public function __construct(string $message = "", $code = 1, array $data = [], Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+        $this->data = $data;
+    }
+}
+```
